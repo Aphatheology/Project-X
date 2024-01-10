@@ -59,6 +59,10 @@ const setUserPassword = async (verifyToken, passwordBody) => {
       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
 
+    if (userToUpdate.password != null) {
+      throw new ApiError(httpStatus.CONFLICT, "You've setup your password already")
+    }
+
     userToUpdate.password = bcrypt.hashSync(passwordBody.password, 8);
 
     await db.users.update(userToUpdate.dataValues, { where: { id: userId } });

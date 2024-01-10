@@ -4,31 +4,53 @@ const { authService, userService, tokenService } = require('../services');
 const { tokenTypes } = require('../config/tokens');
 
 const register = catchAsync(async (req, res) => {
-    const user = await userService.createAdmin(req.body);
-    delete user.password;
-    const accessToken = tokenService.generateToken(user, tokenTypes.ACCESS);
+    const fullUser = await userService.createAdmin(req.body);
+
+    const user = {
+        id: fullUser.id,
+        email: fullUser.email,
+        fullName: fullUser.fullName,
+        role: fullUser.roleName,
+    };
+
+    const accessToken = tokenService.generateToken(fullUser, tokenTypes.ACCESS);
+
     res.status(httpStatus.CREATED).send({ user, accessToken });
 });
 
 const login = catchAsync(async (req, res) => {
-    const { email, password } = req.body;
-    const user = await authService.loginUserWithEmailAndPassword(
-        email,
-        password
-    );
+    const fullUser = await authService.loginUserWithEmailAndPassword(req.body);
 
-    delete user.password;
-    delete user.companyName;
+    const user = {
+        id: fullUser.id,
+        email: fullUser.email,
+        fullName: fullUser.fullName,
+        role: fullUser.roleName,
+    };
 
-    const accessToken = tokenService.generateToken(user, tokenTypes.ACCESS);
+    if (user.role == 'SUPER_ADMIN') {
+        user.companyName = fullUser.companyName;
+    }
+
+    const accessToken = tokenService.generateToken(fullUser, tokenTypes.ACCESS);
 
     res.send({ user, accessToken });
 });
 
 const setUserPassword = catchAsync(async (req, res) => {
-    const user = await userService.setUserPassword(req.query.token, req.body);
+    const fullUser = await userService.setUserPassword(
+        req.query.token,
+        req.body
+    );
 
-    const accessToken = tokenService.generateToken(user, tokenTypes.ACCESS);
+    const user = {
+        id: fullUser.id,
+        email: fullUser.email,
+        fullName: fullUser.fullName,
+        role: fullUser.roleName,
+    };
+
+    const accessToken = tokenService.generateToken(fullUser, tokenTypes.ACCESS);
 
     res.send({ user, accessToken });
 });
