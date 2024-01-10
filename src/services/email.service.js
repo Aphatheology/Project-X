@@ -10,16 +10,17 @@ const sendEmail = async (to, subject, text) => {
 };
 
 const sendSetPasswordEmail = async (to, token, fullName) => {
-    const subject = 'Email Verification';
+    const subject = 'Set Password For Project-X Account';
 
-    const setPasswordEmailUrl = `${config.appUrl}/auth/set-password?token=${token}`;
+    // A clickable link won't work smoothly without frontend
+    // const setPasswordEmailUrl = `${config.appUrl}/auth/set-password?token=${token}`;
 
     const text = `Dear ${fullName},
 An account had been created for you on Project X by the Admin.
-To set your password, click on this link: ${setPasswordEmailUrl}
+Use this token to set your password: ${token}
 If you did not know about Project X, then ignore this email.`;
 
-    logger.info(setPasswordEmailUrl);
+    logger.info(token);
     
     await sendEmail(to, subject, text);
 };

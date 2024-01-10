@@ -50,7 +50,7 @@ const setUserPassword = async (verifyToken, passwordBody) => {
   
     const decodedToken = jwt.verify(verifyToken, process.env.JWT_SECRET);
 
-    if(!decodedToken || decodedToken.type != tokenTypes.VERIFY_EMAIL) throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token');
+    if(!decodedToken || decodedToken.type != tokenTypes.SET_PASSWORD) throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token');
 
     const userId = decodedToken.sub;
     const userToUpdate = await internalGetUserById(userId);
