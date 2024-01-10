@@ -1,13 +1,33 @@
 # Project X
+Project X is a sass software that helps marketplace enterprises to handle checkout. A unique feature of project X is its multi-user functionality which has allowed every department access and update inventory without delay. Roles are assigned to users  and permissions assigned to each role so users are able  to be able to execute different tasks depending on the permission assigned to their roles. 
+
+The software will have a super admin(the business owner) who will be able to create new users, assign the new users to their roles with one or more permissions. 
+NB:
+1.  A user can only have one role. 
+2. One role can have more than one or more permission(s)
+ 
+
+## Main Requirement  
+1. Sketch the ERDs that perfectly explains the multi-user system of the software showing the relationship  between the user, role and permissions table( use dbdiagram.io)
+![Project-X ERD](<Project-X ERD.png>)
+2. Write a register endpoint for super admin (business owner). Input data 
+    1. Full name 
+    2. Company Name 
+    3. Email 
+    4. Password 
+3. Write an endpoint with which the super admin can add more users
+    1. Full name 
+    2. Email
+4. Write a login endpoint for all the user types. 
+
 
 ## Built With
-
 -   Node
 -   Express
 -   Postgres
 -   Sequelize
 
-## Quick Start
+## Quick Setup
 
 Clone the repo:
 
@@ -37,10 +57,12 @@ npm run dev
 # will run the server with nodemon
 
 npm run start
-# will run the server with node
+# will run the server with node with env set to production
 ```
+----------------------------------------------------------------------------------
 
-Now that we’ve learned about the anatomy of our endpoints and the different request methods that we should use, it’s time for some examples:
+## API DOCUMENTATION
+List of all endpoints
 
 | Method | URL                      | Description                               |
 | ------ | ------------------------ | ----------------------------------------- |
@@ -104,10 +126,7 @@ POST /api/auth/register
     "email": "lagbaja@gmail.com",
     "fullName": "Lagbaja Admin",
     "companyName": "Lagbaja Enterprises",
-    "password": "$2b$08$5dgEFkEQQ0nLh.A3yNEO9.Ae0odawikkIzglt/Iq7chsNFpYv8W8W",
-    "roleName": "SUPER_ADMIN",
-    "updatedAt": "2024-01-10T18:27:35.681Z",
-    "createdAt": "2024-01-10T18:27:35.681Z"
+    "role": "SUPER_ADMIN",
   },
   "accessToken": "generatedToken"
 }
@@ -176,11 +195,7 @@ When a user tried to access the create user endpoint
     "id": 2,
     "email": "tamedo@gmail.com",
     "fullName": "Tamedo Staff",
-    "roleName": "USER",
-    "updatedAt": "2024-01-10T18:28:58.665Z",
-    "createdAt": "2024-01-10T18:28:58.665Z",
-    "companyName": null,
-    "password": null
+    "role": "USER",
   }
 }
 ```
@@ -234,12 +249,8 @@ POST /api/auth/login
   "user": {
     "id": 2,
     "fullName": "Tamedo Staff",
-    "companyName": null,
     "email": "tamedo@gmail.com",
-    "password": "$2b$08$r25M2aj6N9uiMWmPaV2JhOTkurryg8SuPtORvrpW17zM8Ijwzvj22",
-    "createdAt": "2024-01-10T13:59:32.128Z",
-    "updatedAt": "2024-01-10T15:07:04.086Z",
-    "roleName": "USER"
+    "role": "USER"
   },
   "accessToken": "generatedToken"
 "
@@ -288,12 +299,8 @@ POST /api/auth/set-password?token=jwtTokenFromEmail
   "user": {
     "id": 2,
     "fullName": "Tamedo Staff",
-    "companyName": null,
     "email": "tamedo@gmail.com",
-    "password": "$2b$08$zEwSR6SOPAYikK.3A1FT9O6ZzPiLT/Nu33xwf0pCEHhUiQvOyaJly",
-    "createdAt": "2024-01-10T18:28:58.665Z",
-    "updatedAt": "2024-01-10T18:28:58.665Z",
-    "roleName": "USER"
+    "role": "USER"
   },
   "accessToken": "generatedToken"
 }
